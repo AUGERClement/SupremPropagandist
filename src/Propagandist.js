@@ -14,6 +14,7 @@ client.on("message", (message) => {
     }
 })
 
+//This token is invalid. I let it here as a example.
 propagand_key = "NjU4MzQxMTgwODM2MjgyMzg4.Xf-c_w.LkDIO14KrinjmjSMm4Qi0kraKgA"
 
 client.login(propagand_key)
