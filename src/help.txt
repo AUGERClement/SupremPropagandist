@@ -9,7 +9,9 @@ Ensuite, si tu veux voir la lumière, tu peux demander dieu. "god" en anglais.
 Donc "h!god". Tu piges ?
 
 Si tu veux un meme, tu peux demander "h!meme"
-C'est des memes Haskell très quali. Tu vas adorer.
+~~C'est des memes Haskell très quali. Tu vas adorer.~~
+Updated, maintenant j'ai des memes Haskell (hmeme), et des memes JS (jsmeme)
+h!meme est perimé.
 
 Une Success Story ? Avec Haskell, on en a à la pelle.
 "h!story", et je t'en sors une de suite.

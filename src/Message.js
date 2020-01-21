@@ -5,11 +5,9 @@ const util = require('util')
 fs.readFilePr = util.promisify(fs.readFile);
 fs.readdirPr = util.promisify(fs.readdir);
 
-//Either fs or util is incompatible with channel.send with file.
-//Node Sucks
-//Let's try to delete Util by using only sync version of fs.
-//edit. Seem like Util is the problem.
-//Edit2 : Promisify hack from Guillian suck.
+//Guillian, I curse your stupid use of promisify !
+//fs.readFile = util.promisify(fs.readFile) is bad stuff.
+//If a lib use the old readFile, you are screwed.
 
 async function sendRandomLine(filename, channel)
 {
@@ -19,6 +17,14 @@ async function sendRandomLine(filename, channel)
 
     console.log(line)
     channel.send(line)
+}
+
+async function sendMeme(channel, memeType) {
+    let memeFolderPath = "src/Memes/" + memeType
+    let files = await fs.readdirPr(memeFolderPath)
+    let file = files[Math.floor(Math.random() * files.length)]
+
+    sendPicture(memeFolderPath + "/" + file, channel)
 }
 
 function sendPicture(picturePath, channel)
@@ -44,12 +50,12 @@ function sendHaskellCurryPic(channel) {
     sendPicture("src/Assets/HaskellCurry.jpg", channel)
 }
 
-async function sendMeme(channel) {
-    let files = await fs.readdirPr("src/Memes/")
+function sendHaskellMeme(channel) {
+    sendMeme(channel, "Haskell")
+}
 
-    let file = files[Math.floor(Math.random() * files.length)]
-
-    sendPicture("src/Memes/" + file, channel)
+function sendJSMeme(channel) {
+    sendMeme(channel, "JS")
 }
 
 async function sendHelp(channel) {
@@ -64,8 +70,11 @@ function parseRequest(request, channel) {
         case 'god':
             sendHaskellCurryPic(channel)
             break
-        case 'meme':
-            sendMeme(channel)
+        case 'hmeme':
+            sendHaskellMeme(channel)
+            break
+        case 'jsmeme':
+            sendJSMeme(channel)
             break
         case 'quote':
             sendQuote(channel)
