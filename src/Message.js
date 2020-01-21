@@ -63,6 +63,10 @@ async function sendHelp(channel) {
     channel.send(content)
 }
 
+function sendNuke(channel) {
+    sendPicture('src/Assets/nuke.png', channel)
+}
+
 //request is toLowerCased
 function parseRequest(request, channel) {
 
@@ -85,6 +89,8 @@ function parseRequest(request, channel) {
         case 'taunt':
             sendTaunt(channel)
             break
+        case 'nuke':
+            sendNuke(channel)
         default:
             sendHelp(channel)
     }
