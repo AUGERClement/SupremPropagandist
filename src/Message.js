@@ -2,15 +2,22 @@ const Discord = require('discord.js')
 const fs = require('fs')
 const util = require('util')
 
-fs.readFile = util.promisify(fs.readFile);
-fs.readdir = util.promisify(fs.readdir);
+fs.readFilePr = util.promisify(fs.readFile);
+fs.readdirPr = util.promisify(fs.readdir);
+
+//Either fs or util is incompatible with channel.send with file.
+//Node Sucks
+//Let's try to delete Util by using only sync version of fs.
+//edit. Seem like Util is the problem.
+//Edit2 : Promisify hack from Guillian suck.
 
 async function sendRandomLine(filename, channel)
 {
-    let content = await fs.readFile(filename)
+    let content = await fs.readFilePr(filename)
     let lines = content.toString().split('\n')
     let line = lines[Math.floor(Math.random() * lines.length)];
 
+    console.log(line)
     channel.send(line)
 }
 
@@ -21,15 +28,15 @@ function sendPicture(picturePath, channel)
     channel.send(picture)
 }
 
-async function sendTaunt(channel) {
+function sendTaunt(channel) {
     sendRandomLine("src/Assets/taunt", channel)
 }
 
-async function sendArticle(channel) {
+function sendArticle(channel) {
     sendRandomLine('src/Assets/articles', channel)
 }
 
-async function sendQuote(channel) {
+function sendQuote(channel) {
     sendRandomLine('src/Assets/quotes', channel)
 }
 
@@ -38,7 +45,7 @@ function sendHaskellCurryPic(channel) {
 }
 
 async function sendMeme(channel) {
-    let files = await fs.readdir("src/Memes/")
+    let files = await fs.readdirPr("src/Memes/")
 
     let file = files[Math.floor(Math.random() * files.length)]
 
@@ -46,10 +53,9 @@ async function sendMeme(channel) {
 }
 
 async function sendHelp(channel) {
-    let content = await fs.readFile("src/help.txt", "utf8");
+    let content = await fs.readFilePr("src/help.txt", "utf8");
     channel.send(content)
 }
-
 
 //request is toLowerCased
 function parseRequest(request, channel) {
