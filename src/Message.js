@@ -86,8 +86,11 @@ function parseRequest(request, channel) {
         "taunt": sendTaunt,
         "nuke": sendNuke
     }
-    
-    requestReplies[request](channel)
+    if (!requestReplies[request]) {
+        sendHelp(channel)
+    } else {
+        requestReplies[request](channel)
+    }
 }
 
 module.exports = {parseRequest}
