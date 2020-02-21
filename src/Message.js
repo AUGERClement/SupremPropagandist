@@ -67,32 +67,27 @@ function sendNuke(channel) {
     sendPicture('src/Assets/nuke.png', channel)
 }
 
+//That's some serious currification shit.
+const switchcase = cases => defaultCase => key =>
+cases.hasOwnProperty(key) ? cases[key] : defaultCase
+
+//switchCase for function
+const switchcaseF = cases => defaultCase => key =>
+switchcase(cases)(defaultCase)(key)()
+
 //request is toLowerCased
 function parseRequest(request, channel) {
-
-    switch (request) {
-        case 'god':
-            sendHaskellCurryPic(channel)
-            break
-        case 'hmeme':
-            sendHaskellMeme(channel)
-            break
-        case 'jsmeme':
-            sendJSMeme(channel)
-            break
-        case 'quote':
-            sendQuote(channel)
-            break
-        case 'story':
-            sendArticle(channel)
-            break
-        case 'taunt':
-            sendTaunt(channel)
-            break
-        case 'nuke':
-            sendNuke(channel)
-        default:
-            sendHelp(channel)
+    requestReplies = {
+        "god": sendHaskellCurryPic,
+        "hmeme": sendHaskellMeme,
+        "jsmeme": sendJSMeme,
+        "quote": sendQuote,
+        "story": sendArticle,
+        "taunt": sendTaunt,
+        "nuke": sendNuke
     }
+    
+    requestReplies[request](channel)
 }
+
 module.exports = {parseRequest}
